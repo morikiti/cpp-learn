@@ -3,7 +3,10 @@
 using namespace std;
 
 class Money {
-    private:
+    /* private:
+        int num;
+        double tax; */
+    protected:
         int num;
         double tax;
     public:
@@ -13,6 +16,17 @@ class Money {
         void show();
         static void show_static();
         
+};
+
+//継承
+class humanMoney : public Money {
+    private:
+        string name;
+    public:
+        humanMoney(string name);
+        humanMoney(int n,double t, string s);
+        void human_show();
+        void show_all();
 };
 //コンストラクタ
 Money::Money() {
@@ -24,6 +38,7 @@ Money::Money() {
 Money::Money(int n, double t) {
     num = n;
     tax = t;
+
     cout << "ok " << endl;
 }
 
@@ -31,20 +46,34 @@ void Money::show() {
     cout << num << " " << tax << endl;
 }
 
-void Money::show_static() {
-    cout << "静的関数"<< endl;
+humanMoney::humanMoney(string n) {
+    name = n;
+    cout << "コンストラクタ　継承先" << endl;
 }
 
+humanMoney::humanMoney(int n,double t, string s):Money(n,t) { 
+    name = s;
+    cout << "コンストラクタ　継承先２ "<< endl;
+}
+
+void humanMoney::human_show() {
+    cout << name << " さん" << endl;
+}
+
+void humanMoney::show_all() {
+    cout << num << " " << tax << " " << name << endl;
+}
+
+
 int main() {
-    Money m;
-    Money m2(132,4.0);
-    m.show();
-    m2.show();
+    humanMoney hm("tanaka");
+    hm.human_show();
+    hm.show();
 
-    //インスタンス化しなくとも実行可能
-    Money::show_static();
-
-    Money marray[10];//デフォルトコンストラクタが１０個実行
-
+    humanMoney hm2(243,432.0,"morio");
+    hm2.show();
+    //privateだとアクセスできんので
+    //cout << hm2.name << " " << hm2.tax << endl;
+    hm2.show_all();
     return 0;
 }
