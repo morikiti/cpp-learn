@@ -53,5 +53,6 @@ int  main() {
     for(auto aa : c) { 
         cout << aa << " ";
     }
+    cout << endl;
 
 }
