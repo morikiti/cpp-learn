@@ -91,34 +91,5 @@ int main() {
 
     cout << "決定係数： " << 1 - r1/r2 << endl;
     cout << "相関係数： " << sqrt(1-r1/r2) << endl;
-
-    //cout << 1 - rr1/rr2 << endl;
-/* 
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-     cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-     cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl; cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl; */
+    
 }
