@@ -5,9 +5,9 @@
 #include <vector>
 #include <cmath>
 
-using std::cout;
-using std::endl;
-using std::cin;
+//using std::cout;
+//using std::endl;
+//using std::cin;
 
 std::vector<std::string> split(std::string& input, char delimiter)
 {
@@ -33,10 +33,10 @@ class regression {
 int main() {
     std::string file;
     int H;
-    cout << "何行？？" << endl;
-    cin >> H;
-    cout << "ファイル名は？" << endl;
-    cin >> file;
+    std::cout << "何行？？" << std::endl;
+    std::cin >> H;
+    std::cout << "ファイル名は？" << std::endl;
+    std::cin >> file;
     std::ifstream ifs(file);
 
     std::string line;
@@ -63,20 +63,20 @@ int main() {
         x_ave += data[i][0];
         y_ave += data[i][1];
     }
-    cout << "x_ave" << x_ave << " " << "y_ave: " << y_ave << endl;
+    std::cout << "x_ave" << x_ave << " " << "y_ave: " << y_ave << std::endl;
     x_ave /= data.size();
     y_ave /= data.size();
 
-    cout << "x_ave" << x_ave << " " << "y_ave: " << y_ave << endl;
+    std::cout << "x_ave" << x_ave << " " << "y_ave: " << y_ave << std::endl;
     for(int i = 0; i < data.size(); ++i) { 
-        cout << data[i][0] - x_ave << " " << data[i][1] - y_ave << endl;
+        std::cout << data[i][0] - x_ave << " " << data[i][1] - y_ave << std::endl;
         sx += pow((x_ave - data[i][0]),2);
         sxy += (y_ave - data[i][1])*(x_ave - data[i][0]);
     }
     sx /= data.size();
     sxy /= data.size();
 
-    cout << "sx :" << sx << "sxy : " << sxy << endl;
+    std::cout << "sx :" << sx << "sxy : " << sxy << std::endl;
 
     a = sxy/sx;
 
@@ -84,9 +84,9 @@ int main() {
 
     double r1=0,r2=0,rr1=0,rr2=0;
     if(b < 0) { 
-        cout << "回帰式： y =" << a << "x " << b << endl;
+        std::cout << "回帰式： y =" << a << "x " << b << std::endl;
     }else { 
-        cout << "回帰式： y =" << a << "x +" << b << endl;
+        std::cout << "回帰式： y =" << a << "x +" << b << std::endl;
     } 
     
     for(int i = 0; i < data.size(); ++i) { 
@@ -99,36 +99,6 @@ int main() {
         rr2 += (data[i][1] - y_ave)*(data[i][1] - y_ave);
     }
 
-    cout << "決定係数： " << 1 - r1/r2 << endl;
-    cout << "相関係数： " << sqrt(1-r1/r2) << endl;
-
-    //cout << 1 - rr1/rr2 << endl;
-/* 
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-     cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-     cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl; cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl;
-    cout << endl; */
+    std::cout << "決定係数： " << 1 - r1/r2 << std::endl;
+    std::cout << "相関係数： " << sqrt(1-r1/r2) << std::endl;
 }

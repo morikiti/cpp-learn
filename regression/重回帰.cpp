@@ -9,6 +9,62 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+std::vector<double> operator+(const std::vector<double>& x, const std::vector<double>& y) {
+	std::vector<double> z(x.size());
+	for (size_t d = 0; d < x.size(); d++) z[d] = x[d] + y[d];
+	return z;
+}
+std::vector<double> operator-(const std::vector<double>& x, double y) {
+	std::vector<double> z(x.size());
+	for (size_t d = 0; d < x.size(); d++)
+		z[d] = x[d] - y;
+	return z;
+}
+
+std::vector<double> operator-(const std::vector<double>& x) {
+	std::vector<double> z(x.size());
+	for (size_t d = 0; d < x.size(); d++) z[d] = -x[d];
+	return z;
+}
+
+std::vector<double> operator-(const std::vector<double>& x, const std::vector<double>& y) {
+	return x + (-y);
+}
+std::vector<double> operator*(double a, const std::vector<double>& x) {
+	std::vector<double> z(x.size());
+	for (size_t d = 0; d < z.size(); d++) z[d] = a * x[d];
+	return z;
+}
+std::vector<double> operator*(const std::vector<double>& x, const std::vector<double>& y) {
+	std::vector<double> z(x.size());
+	for (size_t d = 0; d < x.size(); d++) z[d] = x[d] * y[d];
+	return z;
+}
+std::vector<double> operator/(const std::vector<double>& x, double a) {
+	std::vector<double> z(x.size());
+	for (size_t d = 0; d < x.size(); d++) z[d] = x[d] / a;
+	return z;
+}
+std::vector<double> operator+(const std::vector<double>& x, double a) {
+    std::vector<double> z(x.size());
+    for (size_t d = 0; d < x.size(); d++) z[d] = x[d] + a;
+    return z;
+}
+std::vector<double> operator/(const std::vector<double>& x, const std::vector<double>& y) {
+    std::vector<double> z(x.size());
+    for (size_t d = 0; d < x.size(); d++) z[d] = x[d] / y[d];
+    return z;
+}
+double Sum(const std::vector<double>& x) { 
+    double z = 0.;
+    for(size_t d = 0; d < x.size(); ++d) z += x[d];
+    return z;
+}
+double Dot(const std::vector<double>& x, const std::vector<double>& y) { 
+    return Sum(x * y);
+}
+
+
 std::vector<std::string> split(std::string& input, char delimiter)
 {
     std::istringstream stream(input);
@@ -21,75 +77,39 @@ std::vector<std::string> split(std::string& input, char delimiter)
 }
 
 int main() {
-    std::string file;
-    int H;
-    cout << "何行？？" << endl;
-    cin >> H;
-    cout << "ファイル名は？" << endl;
-    cin >> file;
-    std::ifstream ifs(file);
-
-    std::string line;
-    std::vector<std::string> strvec;
-    std::vector<int> d;
-    std::vector<std::vector<double>> data(H);
-    int i = 0;
+    std::vector<std::vector<double>> xt ={{1,1,1,1},{1,2,3,2},{1,1,2,3}};
+    std::vector<std::vector<double>> x ={{1,1,1},{1,2,1},{1,3,2},{1,2,3}};
     
-    double x_ave = 0,y_ave = 0,sx=0,sxy =0,a=0,b=0;
+    std::vector<double> y = {6,7,10,11};
 
-    while (getline(ifs, line)) {
-        
-        strvec = split(line, ',');
-        for (int j = 0; j < strvec.size(); ++j) { 
-            data.at(i).push_back(stod(strvec.at(j)));
-            //cout << data[i][j] << endl;
+    std::vector<std::vector<double>> xtx(xt.size()),xty(xt.size());
+    
+    for(int i = 0; i < xt.size(); ++i) { 
+        for(int j = 0; j < 1; ++j) { 
+            xty[i].push_back(Dot(xt[i],y));
         }
-       // data.at(i).push_back(d);
-        ++i;
+    }
+
+    for(int i = 0; i < xt.size(); ++i) { 
+        for(int j = 0; j < xt.size(); ++j) { 
+            xtx[i].push_back(Dot(xt[i],xt[j]));
+        }
+    }
+
+
+
+    for(int i = 0; i < xtx.size(); ++i) { 
+        for(auto a : xtx[i]) { 
+            cout << a << " ";
+        }
+        cout << endl;
     }
     
-    for(int i = 0; i < data.size(); ++i) { 
-      //      cout << data[i][0] << " " ;
-        x_ave += data[i][0];
-        y_ave += data[i][1];
+    for(int i = 0; i < xtx.size(); ++i) { 
+        for(auto a : xty[i]) { 
+            cout << a << " ";
+        }
+        cout << endl;
     }
-    cout << "x_ave" << x_ave << " " << "y_ave: " << y_ave << endl;
-    x_ave /= data.size();
-    y_ave /= data.size();
-
-    cout << "x_ave" << x_ave << " " << "y_ave: " << y_ave << endl;
-    for(int i = 0; i < data.size(); ++i) { 
-        cout << data[i][0] - x_ave << " " << data[i][1] - y_ave << endl;
-        sx += pow((x_ave - data[i][0]),2);
-        sxy += (y_ave - data[i][1])*(x_ave - data[i][0]);
-    }
-    sx /= data.size();
-    sxy /= data.size();
-
-    cout << "sx :" << sx << "sxy : " << sxy << endl;
-
-    a = sxy/sx;
-
-    b = y_ave - a*x_ave;
-
-    double r1=0,r2=0,rr1=0,rr2=0;
-    if(b < 0) { 
-        cout << "回帰式： y =" << a << "x " << b << endl;
-    }else { 
-        cout << "回帰式： y =" << a << "x +" << b << endl;
-    } 
-    
-    for(int i = 0; i < data.size(); ++i) { 
-        r1 +=pow((data[i][1] - (a*data[i][0]+b)), 2);
-        r2 += pow( (data[i][1] - y_ave) ,2);
-    }
-
-    for(int i = 0; i < data.size(); ++i) { 
-        rr1 +=(data[i][1] - (a*data[i][0]+b))*(data[i][1] - (a*data[i][0]+b));
-        rr2 += (data[i][1] - y_ave)*(data[i][1] - y_ave);
-    }
-
-    cout << "決定係数： " << 1 - r1/r2 << endl;
-    cout << "相関係数： " << sqrt(1-r1/r2) << endl;
 
 }
